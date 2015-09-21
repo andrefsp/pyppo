@@ -1,0 +1,6 @@
+*.pyc
+.eggs
+Pyppo.egg-info/
+dist
+*.log
+*.swp
