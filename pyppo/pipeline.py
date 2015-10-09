@@ -48,36 +48,6 @@ def consume(iterator):
         pass
 
 
-def create_pipeline(source, steps):
-    """Combine source and steps list and return a generator.
-
-    This is basically the same as the following function:
-
-    :::
-    >>> def combine_pipeline_explicit(source, steps):
-    ...     gen = source
-    ...     for step in steps:
-    ...         gen = step(gen)
-    ...     return gen
-
-    """
-    return functools.reduce(lambda x, y: y(x), steps, source)
-
-
-def split_pipeline(*pipelines):
-
-    def call_pipelines(gen):
-        for x in gen:
-
-            for pipe in pipelines:
-                fork = create_pipeline([deepcopy(x)], pipe)
-                consume(fork)
-
-            yield x
-
-    return call_pipelines
-
-
 def pipeline(source, *steps):
     """
     Higher order function to abstract generators from the steps.
