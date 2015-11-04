@@ -31,7 +31,7 @@ class SplitPipelineTestCase(unittest.TestCase):
         forked_pipeline = pipeline.pipeline([entry],
                                         initial_step,
                                         pipeline.fork(left_branch, right_branch))
-      
+
         pipeline.consume(forked_pipeline)
 
         self.assertTrue(left.called)
@@ -39,7 +39,6 @@ class SplitPipelineTestCase(unittest.TestCase):
         self.assertTrue(right.called)
         self.assertEqual(right.call_args[0][0], {'y': 2, 'i': 1})
 
-       
 
 class PipilineGenerationTestCase(unittest.TestCase):
 
@@ -74,21 +73,17 @@ class PipilineGenerationTestCase(unittest.TestCase):
         self.assertTrue('x' in entry)
         self.assertTrue('y' in entry)
 
-    
     def test_steps_can_be_validated(self):
         entry = {}
-        
         add_y = Mock()
         add_y.return_value = entry
 
         @pipeline.validate_with(lambda entry: 'y' in entry)
         def not_running_step(entry):
             return entry
-        
+
         test_pipeline = pipeline.pipeline([entry], add_y, not_running_step)
-
-        self.assertRaises(pipeline.StepValidationError, pipeline.consume, test_pipeline) 
-
+        self.assertRaises(pipeline.StepValidationError, pipeline.consume, test_pipeline)
 
 
 unittest.main()

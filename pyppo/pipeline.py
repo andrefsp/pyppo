@@ -1,9 +1,6 @@
 from copy import deepcopy
 import functools
-
-
-class StepValidationError(Exception):
-    pass
+from .exceptions import StepValidationError
 
 
 def validate_with(validate_function=None):
